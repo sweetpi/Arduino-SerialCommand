@@ -37,6 +37,8 @@
 #define SERIALCOMMAND_BUFFER 255
 // Maximum length of a command excluding the terminating null
 #define SERIALCOMMAND_MAXCOMMANDLENGTH 8
+// Maximum number of commands
+#define SERIALCOMMAND_MAXCOMMANDS_DEFAULT 10
 
 // Uncomment the next line to run the library in debug mode (verbose messages)
 //#define SERIALCOMMAND_DEBUG
@@ -44,7 +46,7 @@
 
 class SerialCommand {
   public:
-    SerialCommand();      // Constructor
+    SerialCommand(int maxCommands = SERIALCOMMAND_MAXCOMMANDS_DEFAULT);      // Constructor
     void addCommand(const char *command, void(*function)());  // Add a command to the processing dictionary.
     void setDefaultHandler(void (*function)(const char *));   // A handler to call when no valid command received.
 
@@ -70,6 +72,7 @@ class SerialCommand {
     char buffer[SERIALCOMMAND_BUFFER + 1]; // Buffer of stored characters while waiting for terminator character
     byte bufPos;                        // Current position in the buffer
     char *last;                         // State variable used by strtok_r during processing
+    int  maxCommands;
 };
 
 #endif //SerialCommand_h

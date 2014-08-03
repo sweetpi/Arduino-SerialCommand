@@ -26,15 +26,17 @@
 /**
  * Constructor makes sure some things are set.
  */
-SerialCommand::SerialCommand()
+SerialCommand::SerialCommand(int maxCommands)
   : commandList(NULL),
     commandCount(0),
     defaultHandler(NULL),
     term('\n'),           // default terminator for commands, newline character
-    last(NULL)
+    last(NULL),
+    maxCommands(maxCommands)
 {
   strcpy(delim, " "); // strtok_r needs a null-terminated string
   clearBuffer();
+  commandList = (SerialCommandCallback *) calloc(maxCommands, sizeof(SerialCommandCallback));
 }
 
 /**
@@ -50,7 +52,12 @@ void SerialCommand::addCommand(const char *command, void (*function)()) {
     Serial.println(command);
   #endif
 
-  commandList = (SerialCommandCallback *) realloc(commandList, (commandCount + 1) * sizeof(SerialCommandCallback));
+  if (commandCount >= maxCommands){
+    #ifdef SERIALCOMMAND_DEBUG
+    Serial.print("Error: maxCommands was exceeded");
+    #endif
+    return;
+  }
   strncpy(commandList[commandCount].command, command, SERIALCOMMAND_MAXCOMMANDLENGTH);
   commandList[commandCount].function = function;
   commandCount++;
