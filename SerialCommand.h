@@ -38,7 +38,7 @@
 // Maximum length of a command excluding the terminating null
 #define SERIALCOMMAND_MAXCOMMANDLENGTH 8
 // Maximum number of commands
-#define SERIALCOMMAND_MAXCOMMANDS_DEFAULT 10
+#define SERIALCOMMAND_MAXCOMMANDS_DEFAULT 16
 
 // Uncomment the next line to run the library in debug mode (verbose messages)
 //#define SERIALCOMMAND_DEBUG
