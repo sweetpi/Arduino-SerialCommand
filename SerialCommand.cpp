@@ -47,15 +47,15 @@ SerialCommand::SerialCommand(int maxCommands)
  */
 void SerialCommand::addCommand(const char *command, void (*function)()) {
   #ifdef SERIALCOMMAND_DEBUG
-    target.print("Adding command (");
+    target.print(F("Adding command ("));
     target.print(commandCount);
-    target.print("): ");
+    target.print(F("): "));
     target.println(command);
   #endif
 
   if (commandCount >= maxCommands){
     #ifdef SERIALCOMMAND_DEBUG
-    target.print("Error: maxCommands was exceeded");
+    target.print(F("Error: maxCommands was exceeded"));
     #endif
     return;
   }
@@ -87,7 +87,7 @@ void SerialCommand::readSerial() {
 
     if (inChar == term) {     // Check for the terminator (default '\r') meaning end of command
       #ifdef SERIALCOMMAND_DEBUG
-        target.print("Received: ");
+        target.print(F("Received: "));
         target.println(buffer);
       #endif
 
@@ -96,17 +96,17 @@ void SerialCommand::readSerial() {
         boolean matched = false;
         for (int i = 0; i < commandCount; i++) {
           #ifdef SERIALCOMMAND_DEBUG
-            target.print("Comparing [");
+            target.print(F("Comparing ["));
             target.print(command);
-            target.print("] to [");
+            target.print(F("] to ["));
             target.print(commandList[i].command);
-            target.println("]");
+            target.println(F("]"));
           #endif
 
           // Compare the found command against the list of known commands for a match
           if (strncmp(command, commandList[i].command, SERIALCOMMAND_MAXCOMMANDLENGTH) == 0) {
             #ifdef SERIALCOMMAND_DEBUG
-              target.print("Matched Command: ");
+              target.print(F("Matched Command: "));
               target.println(command);
             #endif
 
@@ -128,7 +128,7 @@ void SerialCommand::readSerial() {
         buffer[bufPos] = '\0';      // Null terminate
       } else {
         #ifdef SERIALCOMMAND_DEBUG
-          target.println("Line buffer is full - increase SERIALCOMMAND_BUFFER");
+          target.println(F("Line buffer is full - increase SERIALCOMMAND_BUFFER"));
         #endif
       }
     }
