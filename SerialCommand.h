@@ -54,8 +54,8 @@ class SerialCommand {
     void clearBuffer();   // Clears the input buffer.
     char *next();         // Returns pointer to next token found in command buffer (for getting arguments to commands).
 
-	void setTarget(Stream& target);
-	Stream& getTarget();
+    void setTarget(Stream* target);
+    Stream* getTarget();
 
   private:
     // Command/handler dictionary
@@ -66,7 +66,7 @@ class SerialCommand {
     SerialCommandCallback *commandList;   // Actual definition for command/handler array
     byte commandCount;
 
-	Stream& target;
+    Stream* target;
 
     // Pointer to the default handler function
     void (*defaultHandler)(const char *);
